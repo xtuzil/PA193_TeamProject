@@ -4,22 +4,25 @@ import json
 import math
 from difflib import SequenceMatcher
 
+
 def load_file(file):
     with open(file, "r") as f:
         return json.load(f)
 
+
 def check_title(actual, expected):
-    if not "title" in actual.keys():
-        if not "title" in expected:
+    if "title" not in actual.keys():
+        if "title" not in expected:
             return 20
         return 0
 
     similarity = SequenceMatcher(None, actual["title"], expected["title"]).ratio()
     return 20 * similarity
 
+
 def check_versions(actual, expected):
-    if not "versions" in actual:
-        if not "versions" in expected:
+    if "versions" not in actual:
+        if "versions" not in expected:
             return 20
         return 0
 
@@ -35,7 +38,7 @@ def check_versions(actual, expected):
     score = 0
 
     for key in expected:
-        if not key in actual:
+        if key not in actual:
             continue
 
         score += 1
@@ -50,9 +53,10 @@ def check_versions(actual, expected):
 
     return 20 * score / max_score
 
+
 def check_toc(actual, expected):
-    if not "table_of_contents" in actual:
-        if not "table_of_contents" in expected:
+    if "table_of_contents" not in actual:
+        if "table_of_contents" not in expected:
             return 20
         return 0
 
@@ -85,9 +89,10 @@ def check_toc(actual, expected):
 
     return 20 * score / max_score
 
+
 def check_revisions(actual, expected):
-    if not "revisions" in actual:
-        if not "revisions" in expected:
+    if "revisions" not in actual:
+        if "revisions" not in expected:
             return 20
         return 0
 
@@ -120,9 +125,10 @@ def check_revisions(actual, expected):
 
     return 20 * score / max_score
 
+
 def check_bibliography(actual, expected):
-    if not "bibliography" in actual:
-        if not "bibliography" in expected:
+    if "bibliography" not in actual:
+        if "bibliography" not in expected:
             return 20
         return 0
 
@@ -156,6 +162,7 @@ def main():
         points += check(actual, expected)
 
     print(math.ceil(points))
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
