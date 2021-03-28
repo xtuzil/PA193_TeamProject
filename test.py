@@ -3,11 +3,11 @@ from output_compare import *
 from typing import List, Tuple
 from math import ceil
 import glob
-import mock
+import certificate_parser
 
 
 def test_file(filename: str, result: List[int]):
-    actual = json.loads(mock.main(filename + ".txt"))
+    actual = json.loads(certificate_parser.main(filename + ".txt"))
     expected = load_file(filename + ".json")
 
     checks = (check_title, check_versions, check_toc, check_revisions, check_bibliography)
