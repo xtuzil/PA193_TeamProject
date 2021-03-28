@@ -1,8 +1,9 @@
 #!/bin/env python3
-from output_compare import *
+from output_compare import check_title, check_versions, check_toc, check_revisions, check_bibliography, load_file
 from typing import List, Tuple
 from math import ceil
 import glob
+import json
 import certificate_parser
 
 
