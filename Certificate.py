@@ -1,7 +1,5 @@
 import json
 import ntpath
-import re
-import uuid
 from typing import Optional
 
 from Enum.JsonStructureKeys import JsonStructureKey
@@ -14,57 +12,20 @@ from IJsonItem import IJsonItem
 class Certificate:
     def __init__(self, filename: str, content: str):
         self._filename = ntpath.basename(filename)
-        # backup
+        # backup file name
         if not self._filename:
             self._filename = filename
         self._content = content
-        self._pages = self._guess_pages()
+        self._pages = self._get_per_pages()
         self._json = {}
 
-    # trying to guess each page. Prints warning if not finding footer
-    # probably can find also wrong footer
-    def _guess_pages(self) -> dict[int, str]:
-        placeholder, footer = self._find_footer()
-        if footer is None:
-            print("Warning! Did not found pages for " + self._filename + ". Skipping")
-            return {}
-        regex_string_split = self._get_footer_regex(footer, placeholder)
-        regex = re.compile(regex_string_split)
-        page_numbers = regex.findall(self._content)
-        tmp_content = self._content
+    def _get_per_pages(self) -> dict[int, str]:
         pages = {}
-        for page_number in page_numbers:
-            regex_to_grab_footer = footer.replace(" ", " +").replace(placeholder, " " + page_number )
-            concrete_footer = re.findall(regex_to_grab_footer, self._content)
-            tmp = regex.split(tmp_content, 1)
-            tmp_content = tmp[2]
-            pages[int(page_number)] = tmp[0] + concrete_footer[0]
+        page_number = 1
+        for page_content in self._content.split('\f'):
+            pages[page_number] = page_content
+            page_number += 1
         return pages
-
-    def _find_footer(self) -> (str, str):
-        tmp_content = re.sub(' +', ' ', self._content)
-        tmp_content_split = tmp_content.splitlines(keepends=True)
-        for i in range(5, len(tmp_content_split)):
-            tested_are = "".join(tmp_content_split[i - 5: i])
-            numbers = [int(x) for x in tested_are.split() if x.isdigit()]
-            for number in numbers:
-                possible = True
-                for increment in range(number, number + 4):
-                    if tested_are.replace(str(number), str(increment)) not in tmp_content:
-                        possible = False
-                        break
-
-                    if tested_are.replace(" " + str(number),  " " + str(increment)) not in tmp_content:
-                        possible = False
-                if possible:
-                    placeholder = "{%" + str(uuid.uuid4()) + "%}"
-                    return placeholder, tested_are.replace(str(number), placeholder)
-        return None
-
-    @staticmethod
-    def _get_footer_regex(footer: str, placeholder: str) -> str:
-        regex = footer.replace(" ", " +").split(placeholder)
-        return regex[0] + "(?P<page>[0-9]+)" + regex[1]
 
     def get_page_numbers(self) -> list[int]:
         return list(self._pages.keys())
