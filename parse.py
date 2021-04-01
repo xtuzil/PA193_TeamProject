@@ -1,7 +1,7 @@
 import argparse
 import errno
 import os
-from typing import Optional
+from typing import Optional, List
 
 from Certificate import Certificate
 from Enum.JsonStructureKeys import JsonStructureKey
@@ -9,8 +9,8 @@ from ParsingModules.ParsingModulesContainer import ParsingModulesContainer
 
 
 def main(
-        certificates: list[Certificate],
-        pretty_print: Optional[list[JsonStructureKey]] = None,
+        certificates: List[Certificate],
+        pretty_print: Optional[List[JsonStructureKey]] = None,
         out_dir: str = 'output') -> None:
     if not out_dir.endswith("/"):
         out_dir = out_dir + "/"

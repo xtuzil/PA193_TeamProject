@@ -1,9 +1,11 @@
+from typing import Dict, List
+
 from Enum.Versions import Versions
 from JsonItems.IJsonItem import IJsonItem
 
 
 class VersionsJson(IJsonItem):
-    def __init__(self, versions: dict[Versions, list[str]]):
+    def __init__(self, versions: Dict[Versions, List[str]]):
         self._versions = versions
 
     def get_structure_for_json(self):

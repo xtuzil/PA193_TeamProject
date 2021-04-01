@@ -1,17 +1,18 @@
 #!/bin/env python3
+from Certificate import Certificate
 from output_compare import check_title, check_versions, check_toc, check_revisions, check_bibliography, load_file
 from typing import List, Tuple
 from math import ceil
 import glob
-import json
-import certificate_parser
+import parse
 
 
 def test_file(filename: str, result: List[int]):
-    actual = json.loads(certificate_parser.main(filename + ".txt"))
-    expected = load_file(filename + ".json")
+    actual = load_file("output/" + filename)
+    expected = load_file("dataset/" + filename)
 
-    checks = (check_title, check_versions, check_toc, check_revisions, check_bibliography)
+    # checks = [check_title, check_versions, check_toc, check_revisions, check_bibliography]
+    checks = [check_versions]
     for check in checks:
         try:
             result.append(ceil(check(actual, expected)))
@@ -28,22 +29,26 @@ def print_result(result: Tuple[str, List[int], int]):
 
 def main():
     files = glob.glob("dataset/*.txt")
-    files = [file.rsplit('.', 1)[0] for file in files]
-    results = []
+    certificates = []
+    for filename in files:
+        with open(filename, 'r') as file:
+            certificates.append(Certificate(filename, file.read()))
+    parse.main(certificates)
+    test_results = []
     print("Filename".ljust(40) + "Tit Ver ToC Rev Bib | Sum")
-    for file in files:
+    for cert in certificates:
         test_result = []
-        test_file(file, test_result)
-        file = file.split('/', 1)[1]
-        results.append((file, test_result, sum(test_result)))
+        test_file(cert.get_filename()[:-4] + ".json", test_result)
+        test_results.append((cert.get_filename(), test_result, sum(test_result)))
 
-    for result in results:
+    for result in test_results:
         print_result(result)
-    results.sort(key=lambda item: item[2])
+    test_results.sort(key=lambda item: item[2])
     print("\n5 Worst:")
     for i in range(5):
-        print_result(results[i])
-    print("\nOverall score: " + str(sum([x[2] for x in results])) + " / " + str(len(results)*len(results[0][1])*20))
+        print_result(test_results[i])
+    print("\nOverall score: " + str(sum([x[2] for x in test_results])) + " / "
+          + str(len(test_results)*len(test_results[0][1])*20))
 
 
 if __name__ == '__main__':

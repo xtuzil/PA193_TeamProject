@@ -1,5 +1,7 @@
 import re
 
+from typing import List
+
 from Certificate import Certificate
 from Enum.JsonStructureKeys import JsonStructureKey
 from Enum.Versions import Versions
@@ -33,7 +35,7 @@ class VersionsParsingModule(IParsingModule):
         certificate.set_json_key_item(JsonStructureKey.VERSION, VersionsJson(versions_map))
 
     @staticmethod
-    def _find_versions(version: Versions, document_content: str) -> list[str]:
+    def _find_versions(version: Versions, document_content: str) -> List[str]:
         regex_string = VersionsParsingModule._choose_regex(version)
 
         version_duplicates = re.findall(regex_string, document_content, flags=re.IGNORECASE)
