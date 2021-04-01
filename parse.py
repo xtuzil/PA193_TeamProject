@@ -44,12 +44,12 @@ if __name__ == "__main__":
 
     try:
         args = parser.parse_args()
-        certificates = []
+        arg_certificates = []
         for file in args.files:
             # transform file to Certificate class
-            certificates.append(Certificate(file.name, file.read()))
+            arg_certificates.append(Certificate(file.name, file.read()))
 
-        main(certificates)
+        main(arg_certificates)
 
     except FileNotFoundError as not_found:
         print("File " + str(not_found.filename) + " not found")

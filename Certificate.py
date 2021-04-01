@@ -3,7 +3,7 @@ import ntpath
 from typing import Optional
 
 from Enum.JsonStructureKeys import JsonStructureKey
-from IJsonItem import IJsonItem
+from JsonItems.IJsonItem import IJsonItem
 
 
 # Class representation of certificate
@@ -47,7 +47,7 @@ class Certificate:
 
     def to_json(self, pretty_print: Optional[list[JsonStructureKey]]) -> str:
         tmp = {}
-        for key, item in self._json:
+        for key, item in self._json.items():
             tmp[key.value] = item.get_structure_for_json()
 
         if pretty_print is not None:
