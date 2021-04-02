@@ -1,6 +1,6 @@
 import json
 import ntpath
-from typing import Optional
+from typing import Optional, Dict, List
 
 from Enum.JsonStructureKeys import JsonStructureKey
 from JsonItems.IJsonItem import IJsonItem
@@ -19,7 +19,7 @@ class Certificate:
         self._pages = self._get_per_pages()
         self._json = {}
 
-    def _get_per_pages(self) -> dict[int, str]:
+    def _get_per_pages(self) -> Dict[int, str]:
         pages = {}
         page_number = 1
         for page_content in self._content.split('\f'):
@@ -27,7 +27,7 @@ class Certificate:
             page_number += 1
         return pages
 
-    def get_page_numbers(self) -> list[int]:
+    def get_page_numbers(self) -> List[int]:
         return list(self._pages.keys())
 
     def get_page_content(self, page: int) -> str:
@@ -45,7 +45,7 @@ class Certificate:
     def set_json_key_item(self, key: JsonStructureKey, item: IJsonItem):
         self._json[key] = item
 
-    def to_json(self, pretty_print: Optional[list[JsonStructureKey]]) -> str:
+    def to_json(self, pretty_print: Optional[List[JsonStructureKey]]) -> str:
         tmp = {}
         for key, item in self._json.items():
             tmp[key.value] = item.get_structure_for_json()
