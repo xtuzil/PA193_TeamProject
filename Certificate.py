@@ -22,10 +22,16 @@ class Certificate:
     def _get_per_pages(self) -> Dict[int, str]:
         pages = {}
         page_number = 1
-        for page_content in self._content.split('\f'):
-            pages[page_number] = page_content
-            page_number += 1
+        splited_pages = self._content.split('\f')
+        for page_content in splited_pages:
+            if page_number < len(splited_pages):
+                pages[page_number] = page_content
+                page_number += 1
         return pages
+
+
+    def get_pages_count(self) -> int:
+        return len(self._pages.keys())
 
     def get_page_numbers(self) -> List[int]:
         return list(self._pages.keys())
