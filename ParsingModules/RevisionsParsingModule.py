@@ -14,9 +14,9 @@ from ParsingModules.IParsingModule import IParsingModule
 
 class RevisionsParsingModule(IParsingModule):
     _revisions_title_regex_string = r"[\d\s.]*(?:Revision History|Version Control|DOCUMENT EVOLUTION|" \
-                                    r"(?:Rev *Date *Description\n))[^ ..]"
+                                    r"(?:Rev *Date *Description\n))(?![\. ])"
 
-    _version = r"(?: Version)? {0,20}((?:\d\.)+\d)"
+    _version = r"(?: Version)? {0,20}((?:(?:\d\.)+\d)|(?:Rev [A-Z]))"
     _date = r"(\d{2,4}\s{0,2}[- \.]\s{0,2}(?:(?:\w+)|(?:\d{2}))\s{0,2}[- \.]\s{0,2}\d{2,4})"
     _description = r" {1,100}([A-Za-z].*\n(?: {5,50}[\(“\w].*(?:\n)+)*)"
     _revision_regex_string = fr"{_version}\s+(?:{_date})?:?{_description}"
@@ -57,7 +57,7 @@ class RevisionsParsingModule(IParsingModule):
 
     @staticmethod
     def _find_revisions_page_number(certificate: Certificate) -> int:
-        for page_number in range(1, certificate.get_pages_count()):
+        for page_number in range(1, certificate.get_pages_count()+1):
             if RevisionsParsingModule._is_revisions_on_page(certificate, page_number):
                 return page_number
         return -1
