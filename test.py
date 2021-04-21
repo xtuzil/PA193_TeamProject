@@ -12,7 +12,7 @@ def test_file(filename: str, result: List[int]):
     expected = load_file("dataset/" + filename)
 
     # checks = [check_title, check_versions, check_toc, check_revisions, check_bibliography]
-    checks = [check_title, check_versions, check_bibliography]
+    checks = [check_title, check_versions, check_revisions, check_bibliography]
     for check in checks:
         try:
             result.append(ceil(check(actual, expected)))

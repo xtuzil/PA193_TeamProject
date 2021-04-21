@@ -13,6 +13,6 @@ class ParsingModulesContainer:
         return [
             TitleParsingModule,
             BibliographyParsingModule,
-            RevisionsParsingModule
+            RevisionsParsingModule,
             VersionsParsingModule
         ]
