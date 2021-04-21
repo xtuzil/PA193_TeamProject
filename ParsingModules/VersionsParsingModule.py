@@ -11,8 +11,8 @@ from ParsingModules.IParsingModule import IParsingModule
 
 class VersionsParsingModule(IParsingModule):
     # regex strings for each version
-    _eal_regex_string = r"EAL ?[1-6]\+?"
-    _des_regex_string = r"(?:(?:SINGLE|TRIPLE|DOUBLE)[ -]?|[3T])?DES3?"
+    _eal_regex_string = r"[^a-z](EAL ?[1-6]\+?)"
+    _des_regex_string = r"(?:(?:TRIPLE|DOUBLE)[ -]?|[3T])?DES3?"
     _ecc_regex_string = r"ECC \d+"
     _rsa_regex_string = r"RSA(?:(?:[ -_]\d+(?:/\d+)?)|-CRT|SSA-PSS|SignaturePKCS1)"
     _sha_regex_string = r"SHA[ -_]?\d{1,3}(?:/\d{1,3})?"
@@ -41,7 +41,7 @@ class VersionsParsingModule(IParsingModule):
         version_duplicates = re.findall(regex_string, document_content, flags=re.IGNORECASE)
         version_set = set(version_duplicates)
         versions = list(version_set)
-        return [a for a in versions if a.lower() != version]  # filter no version
+        return [a for a in versions if a.lower() != version.value]  # filter no version
 
     @staticmethod
     def _choose_regex(version: Versions) -> str:
