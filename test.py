@@ -44,11 +44,13 @@ def main():
     for result in test_results:
         print_result(result)
     test_results.sort(key=lambda item: item[2])
-    print("\n5 Worst:")
-    for i in range(5):
+    print("\n10 Worst:")
+    for i in range(10):
         print_result(test_results[i])
     print("\nOverall score: " + str(sum([x[2] for x in test_results])) + " / "
           + str(len(test_results)*len(test_results[0][1])*20))
+    print("\nAdjusted score: " + str(sum([x[2] for x in test_results[5:]])) + " / "
+          + str(len(test_results[5:]) * len(test_results[0][1]) * 20))
 
 
 if __name__ == '__main__':
