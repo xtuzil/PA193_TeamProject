@@ -36,7 +36,7 @@ def main(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Parse certificates to json', exit_on_error=True)
+    parser = argparse.ArgumentParser(description='Parse certificates to json')
     parser.add_argument('files', metavar='N', type=open, nargs='+', help='Files')
     parser.add_argument('--pretty-print', '-p', nargs='*', choices=JsonStructureKey.get_values(), help='Pretty print')
     parser.add_argument('--output-dir', '-o', nargs=1, type=str, help='Output directory')
@@ -54,3 +54,6 @@ if __name__ == "__main__":
     except FileNotFoundError as not_found:
         print("File " + str(not_found.filename) + " not found")
         exit(1)
+    except UnicodeDecodeError as decode_err:
+        print("File " + file.name + " has invalid format: " + str(decode_err))
+        exit(2)
