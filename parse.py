@@ -17,7 +17,7 @@ def main(
 
     # iterate over certificates
     for certificate in certificates:
-        for parsing_module in ParsingModulesContainer.get_parsing_modules():
+        for parsing_module in ParsingModulesContainer.get_parsing_modules(pretty_print):
             # give certificate to modules so each parse its part
             parsing_module.parse(certificate)
 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parse certificates to json')
     parser.add_argument('files', metavar='N', type=open, nargs='+', help='Files')
     parser.add_argument('--pretty-print', '-p', nargs='*', choices=JsonStructureKey.get_values(), help='Pretty print')
-    parser.add_argument('--output-dir', '-o', nargs=1, type=str, help='Output directory')
+    parser.add_argument('--output-dir', '-o', nargs=1, type=str, help='Output directory', default="output")
     parser.add_help = True
 
     try:
@@ -49,7 +49,7 @@ if __name__ == "__main__":
             # transform file to Certificate class
             arg_certificates.append(Certificate(file.name, file.read()))
 
-        main(arg_certificates)
+        main(arg_certificates, args.pretty_print, args.output_dir)
 
     except FileNotFoundError as not_found:
         print("File " + str(not_found.filename) + " not found")

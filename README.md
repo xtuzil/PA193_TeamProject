@@ -1,5 +1,20 @@
 # PA193_TeamProject
 Repository for team project in PA193 (Security Certificate Parser)
+## Usage
+Parsing is done by calling `parse.py`
+
+`python parse.py <INPUT FILE> [<INPUT_FILE> ...]`
+
+Arguments
+```
+  -h, --help            show help message and exit
+  -p, --pretty-print [ title | versions | table_of_contents | revisions | bibliography | other ]
+                        Pretty print. To Pretty print more keys stack multiple -p or --pretty-print arguments
+                        e. g. -p title -p versions -p table_of_contents
+  -o, --output-dir OUTPUT_DIR
+                        Output directory (default: output)
+
+```
 
 ## Assignment
 * Input:TXTfile(PDFtransformedtoTXTfileviapdftotext)  
