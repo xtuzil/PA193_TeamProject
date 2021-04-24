@@ -29,7 +29,6 @@ class Certificate:
                 page_number += 1
         return pages
 
-
     def get_pages_count(self) -> int:
         return len(self._pages.keys())
 
@@ -38,9 +37,18 @@ class Certificate:
 
     def get_page_content(self, page: int) -> str:
         if page not in self._pages:
-            raise Exception("not valid page")
+            raise Exception("not valid page " + str(page) + " for file " + self._filename)
 
         return self._pages[page]
+
+    def get_page_content_trim(self, page_number: int) -> str:
+        page = self.get_page_content(page_number)
+        page_trim = []
+
+        for line in page.split("\n"):
+            page_trim.append(line.strip())
+
+        return "\n".join(page_trim)
 
     def get_whole_content(self) -> str:
         return self._content
@@ -59,8 +67,8 @@ class Certificate:
         if pretty_print is not None:
             pretty_printed = {}
             for key in pretty_print:
-                if key.value in tmp:
-                    pretty_printed[key.value] = tmp[key.value]
+                if key in tmp:
+                    pretty_printed[key] = tmp[key]
             return json.dumps(pretty_printed, indent=4, sort_keys=True)
 
         return json.dumps(tmp)
