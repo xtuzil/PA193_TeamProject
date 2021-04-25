@@ -62,7 +62,7 @@ class BibliographyParsingModule(IParsingModule):
 
         bibliography_start = BibliographyParsingModule._find_bibliography_start_page_number(certificate)
         if bibliography_start == 0:
-            print("Bibliography not found! filename: " + certificate.get_filename())
+            certificate.set_json_key_item(JsonStructureKey.BIBLIOGRAPHY, BibliographyJson(bibliography_dict))
             return
 
         bibliography_length = BibliographyParsingModule._guess_bibliography_length(certificate, bibliography_start)
