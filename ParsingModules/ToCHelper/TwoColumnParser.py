@@ -32,10 +32,10 @@ class TwoColumnParser:
         self._STATE = TWO_COL_PARSER_STATE.EMPTY
         self._SIDE = TWO_COL_PARSER_STATE.LEFT
         self._left_chapter = None
-        self._left_chapter_name = None
+        self._left_chapter_name = ''
         self._left_page_number = None
         self._right_chapter = None
-        self._right_chapter_name = None
+        self._right_chapter_name = ''
         self._right_page_number = None
         self._dot_counter = 0
         self._space_counter = 0
@@ -125,15 +125,10 @@ class TwoColumnParser:
                 if self._SIDE == TWO_COL_PARSER_STATE.LEFT:
                     self._STATE_LEFT = TWO_COL_PARSER_STATE.SPACE_PLACEHOLDER
                     self._STATE = TWO_COL_PARSER_STATE.SPACE_PLACEHOLDER
-                    if self._left_chapter_name is None:
-                        print(self.tmp.get_filename())
                     self._left_chapter_name = self._left_chapter_name[:-self._CONFIG_DOTS]
                 if self._SIDE == TWO_COL_PARSER_STATE.RIGHT:
                     self._STATE_RIGHT = TWO_COL_PARSER_STATE.SPACE_PLACEHOLDER
                     self._STATE = TWO_COL_PARSER_STATE.SPACE_PLACEHOLDER
-
-                    if self._right_chapter_name is None:
-                        print(self.tmp.get_filename())
                     self._right_chapter_name = self._right_chapter_name[:-self._CONFIG_DOTS]
         elif letter == " ":
             self._space_counter += 1
@@ -146,12 +141,8 @@ class TwoColumnParser:
             self._space_counter = 0
 
         if self._SIDE == TWO_COL_PARSER_STATE.LEFT:
-            if self._left_chapter_name is None:
-                self._left_chapter_name = ''
             self._left_chapter_name += letter
         if self._SIDE == TWO_COL_PARSER_STATE.RIGHT:
-            if self._right_chapter_name is None:
-                self._right_chapter_name = ''
             self._right_chapter_name += letter
 
     def _action_space_fill(self, letter: str, position: int):
@@ -223,12 +214,12 @@ class TwoColumnParser:
     def _reset_left(self) -> None:
         self._STATE_LEFT = TWO_COL_PARSER_STATE.EMPTY
         self._left_chapter = None
-        self._left_chapter_name = None
+        self._left_chapter_name = ''
         self._left_page_number = None
 
     def _reset_right(self) -> None:
         self._right_chapter = None
-        self._right_chapter_name = None
+        self._right_chapter_name = ''
         self._right_page_number = None
 
     def _have_found_toc(self) -> bool:

@@ -32,6 +32,8 @@ class TableOfContentParsingModule(IParsingModule):
     @staticmethod
     def parse(certificate: Certificate):
         toc_pages = TableOfContentParsingModule.__get_first_toc_page_number(certificate)
+        if not toc_pages:
+            return
         single_col = True
         if TableOfContentParsingModule._toc_is_two_columns(certificate, toc_pages[0]):
             single_col = False
@@ -82,8 +84,8 @@ class TableOfContentParsingModule(IParsingModule):
 
             tmp.append(page_number)
 
-        if len(probably_wrong_page) > 1:
-            print("Warning: " + certificate.get_filename() + " " + str(probably_wrong_page))
+        # if len(probably_wrong_page) > 1:
+        #     print("Warning: " + certificate.get_filename() + " " + str(probably_wrong_page))
 
         return tmp
 
