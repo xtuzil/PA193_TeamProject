@@ -9,9 +9,6 @@ from JsonItems.RevisionsJson import RevisionsJson
 from ParsingModules.IParsingModule import IParsingModule
 
 
-# TODO: potential improve - change places date and version: 0782V5b_pdf.txt, 1105b_pdf.txt, [ST-Lite-EAC]_(
-#  v1.1)_2018_2000036361_-_Security_Target_Lite_IDeal_Pass_v2.3-n_(SAC_EAC_Polymorphic).txt
-
 class RevisionsParsingModule(IParsingModule):
     _revisions_title_regex_string = r"[\d\s.]*(?:Revision History|Version Control|DOCUMENT EVOLUTION|" \
                                     r"(?:Rev *Date *Description\n))(?![\. ])"
