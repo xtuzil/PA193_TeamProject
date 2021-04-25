@@ -27,6 +27,7 @@ jobs:
       run: |
         python fuzz.py
     - name: Upload a Build Artifact
+      if: always()
       uses: actions/upload-artifact@v2.2.3
       with:
         path: input
