@@ -1,6 +1,7 @@
 #!/bin/env python3
 import ntpath
 import os
+import time
 from pathlib import Path
 import random
 import pyradamsa
@@ -17,8 +18,6 @@ def test(filename: Path):
         Path.unlink(filename)
     except UnicodeDecodeError:
         Path.unlink(filename)
-    # except FileNotFoundError as e:
-    #     print("Not found: " + str(e.filename))
     except Exception as e:
         print(str(filename) + " failed with " + str(e))
 
@@ -29,7 +28,8 @@ def main():
     if not os.path.exists("input"):
         os.makedirs("input")
     i = 0
-    while True:
+    start_time = time.monotonic()
+    while time.monotonic() < start_time + 60 * 60 * 5:
         base_filename = Path(random.choice(files))
         fuzzed_filename = Path("./input/" + str(i) + "_" + ntpath.basename(base_filename))
         with open(base_filename, 'r') as file:
@@ -38,6 +38,7 @@ def main():
             file.write(fuzzed)
         test(fuzzed_filename)
         i += 1
+    print("Number of fuzzed inputs: " + str(i))
 
 
 if __name__ == '__main__':

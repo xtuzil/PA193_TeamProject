@@ -24,7 +24,6 @@ jobs:
         pip install pyradamsa
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run fuzzer
-      timeout-minutes: 300
       run: |
         python fuzz.py
     - name: Upload a Build Artifact
