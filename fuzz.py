@@ -16,8 +16,8 @@ def test(filename: Path):
             parse.main([Certificate(str(filename), file.read())])
         Path.unlink(Path("./output/" + str(filename.stem) + ".json"))
         Path.unlink(filename)
-    #except UnicodeDecodeError:
-    #    Path.unlink(filename)
+    except UnicodeDecodeError:
+        Path.unlink(filename)
     except Exception as e:
         print(str(filename) + " failed with " + str(e))
 
@@ -29,7 +29,7 @@ def main():
         os.makedirs("input")
     i = 0
     start_time = time.monotonic()
-    while time.monotonic() < start_time + 60:
+    while time.monotonic() < start_time + 60 * 60 * 5:
         base_filename = Path(random.choice(files))
         fuzzed_filename = Path("./input/" + str(i) + "_" + ntpath.basename(base_filename))
         with open(base_filename, 'r') as file:
