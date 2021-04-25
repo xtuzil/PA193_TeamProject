@@ -15,6 +15,8 @@ class TitleParsingModule(IParsingModule):
 
     @staticmethod
     def parse(certificate: Certificate):
+        if certificate.get_pages_count() < 1:
+            return
         title_page = certificate.get_page_content(1)
         # expecting double new lines before and after title
         candidate_lines = title_page.split("\n\n")
