@@ -12,7 +12,7 @@ class TableOfContent(IJsonItem):
         for item in self._structure:
             chapter, chapter_name, page_number = item
             chapter_name = " ".join(chapter_name.replace("\n", " ").strip().split())
-            if chapter_name[-1] == ".":
+            if len(chapter_name) > 0 and chapter_name[-1] == ".":
                 chapter_name = chapter_name[:-1]
             tmp.append([chapter, chapter_name, page_number])
         return tmp

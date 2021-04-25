@@ -123,6 +123,6 @@ class SingleColumnParser:
 
     @staticmethod
     def _clean(string: str) -> str:
-        while string[-1] == ".":
+        while len(string) > 0 and string[-1] == ".":
             string = string[:-1]
         return string.strip()
