@@ -38,7 +38,7 @@ def main():
             file.write(fuzzed)
         test(fuzzed_filename)
         i += 1
-    print("Number of fuzzed inputs: " + i)
+    print("Number of fuzzed inputs: " + str(i))
 
 
 if __name__ == '__main__':
