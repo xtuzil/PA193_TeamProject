@@ -38,7 +38,7 @@ def main(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parse certificates to json')
     parser.add_argument('files', metavar='N', type=open, nargs='+', help='Files')
-    parser.add_argument('--pretty-print', '-p', nargs='*', choices=JsonStructureKey.get_values(), help='Pretty print')
+    parser.add_argument('--pretty-print', '-p', action='append', choices=JsonStructureKey.get_values(), help='Pretty print')
     parser.add_argument('--output-dir', '-o', type=str, help='Output directory', default="output")
     parser.add_help = True
 
