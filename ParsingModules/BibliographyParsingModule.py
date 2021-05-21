@@ -48,7 +48,7 @@ class BibliographyParsingModule(IParsingModule):
     @staticmethod
     def _find_bibliography_start_page_number(certificate: Certificate) -> int:
         bibliography_start = 0
-        for page_number in range(certificate.get_pages_count(), 0, -1):
+        for page_number in range(certificate.get_pages_count(), 1, -1):
             if (BibliographyParsingModule._is_bib_on_page(certificate, page_number)) and not \
                     (BibliographyParsingModule._is_bib_on_page(certificate, page_number - 1)):
                 bibliography_start = page_number
