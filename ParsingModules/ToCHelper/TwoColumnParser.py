@@ -152,10 +152,12 @@ class TwoColumnParser:
         if letter.isnumeric():
             next_number_position = position + 1
             # 2 or more digit number
-            while self._content[next_number_position].isnumeric():
+            while next_number_position < len(self._content) and \
+                    self._content[next_number_position].isnumeric():
                 next_number_position += 1
 
-            while not self._content[next_number_position].isnumeric():
+            while next_number_position < len(self._content) and \
+                    not self._content[next_number_position].isnumeric():
                 next_non_number = self._content[next_number_position]
                 if next_non_number == " " or next_non_number == "\n":
                     if self._SIDE == TWO_COL_PARSER_STATE.LEFT:
